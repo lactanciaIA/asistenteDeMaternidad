@@ -1,0 +1,81 @@
+{
+    "PalabrasReservadas": [
+        "SELECT",
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "FROM",
+        "WHERE",
+        "JOIN",
+        "INNER JOIN",
+        "LEFT JOIN",
+        "RIGHT JOIN",
+        "FULL JOIN",
+        "GROUP BY",
+        "HAVING",
+        "ORDER BY",
+        "INTO",
+        "VALUES",
+        "CREATE",
+        "DROP",
+        "ALTER",
+        "ADD",
+        "DISTINCT",
+        "UNION",
+        "LIMIT",
+        "OFFSET"
+    ],
+    "TiposDeDatos": [
+        "INT",
+        "VARCHAR",
+        "CHAR",
+        "TEXT",
+        "FLOAT",
+        "DOUBLE",
+        "DATE",
+        "TIMESTAMP",
+        "BOOLEAN"
+    ],
+    "EstructurasDeConsulta": [
+        {
+            "Estructura": "SELECT [columnas] FROM [tabla]",
+            "Explicacion": "Recupera datos de las columnas especificadas de una tabla."
+        },
+        {
+            "Estructura": "SELECT * FROM [tabla]",
+            "Explicacion": "Recupera todas las columnas de una tabla."
+        },
+        {
+            "Estructura": "INSERT INTO [tabla] VALUES ([valores])",
+            "Explicacion": "Inserta un nuevo registro en la tabla con los valores especificados."
+        },
+        {
+            "Estructura": "UPDATE [tabla] SET [columna = valor]",
+            "Explicacion": "Actualiza valores en una o más columnas de una tabla."
+        },
+        {
+            "Estructura": "DELETE FROM [tabla] WHERE [condición]",
+            "Explicacion": "Elimina registros de una tabla que cumplen con la condición especificada."
+        },
+        {
+            "Estructura": "CREATE TABLE [nombre] ([definición columnas])",
+            "Explicacion": "Crea una nueva tabla con las columnas y tipos de datos especificados."
+        },
+        {
+            "Estructura": "ALTER TABLE [tabla] ADD [columna] [tipo]",
+            "Explicacion": "Agrega una nueva columna a una tabla existente."
+        },
+        {
+            "Estructura": "DROP TABLE [tabla]",
+            "Explicacion": "Elimina una tabla completamente."
+        }
+    ],
+    "TablasSimuladas": [
+        "Clientes",
+        "Productos",
+        "Ventas",
+        "Ropa",
+        "Edificio",
+        "Inventario"
+    ]
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu asistente de la maternidad</title>
+
+    <!-- Estilos para la pagina web -->
+    <link rel="stylesheet" href="./estilos.css">
+</head>
+
+<body>
+    <div class="div-contenedor">
+        <!-- Contenedor de la cabezera -->
+        <div class="div-cabeza">
+            <p>Tu asistente de la maternidad</p>
+        </div>
+
+        <!-- Contenedor del cuerpo en donde se muetra la pregunta que escribio el usuario y la explicacion de la IA-->
+        <div class="div-cuerpo">
+            <div class="div-text-usuario">
+                <p id="idPUsuario"></p>
+            </div>
+
+            <div class="div-text-IA">
+                <p id="idPIA">
+                    
+                </p>
+            </div>
+        </div>
+
+        <!-- Contenedor en donde el usuario ingresa la pregunta -->
+        <div class="div-mensaje">
+            <div class="div-elementos">
+                <textarea id="areaSQL" rows="3" cols="50" placeholder="Escribe tu duda aquí"></textarea>
+                <button onclick="llamarAPI()">
+                    <svg viewBox="0 0 24 24" height="70" width="70" preserveAspectRatio="xMidYMid meet" class="" version="1.1" x="0px" y="0px" enable-background="new 0 0 24 24"><title>send</title><path fill="currentColor" d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para utilizar la API  -->
+    <script src="./llamar-API.js"></script>
+</body>
+
+</html>
