@@ -1,82 +1,173 @@
-//Llave para la API de Cohere
-const API_KEY = 'UnJ5t9AxgYACMtiLi039ddZhJrQbJ6nuL3L7VSmk';
+// ============================================
+// CONFIGURACIÓN
+// ============================================
+const API_KEY = 'AIzaSyAr3mbb8Y4oCtXsZVW5a_GOJXVHO41aImI';
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent';
+const MAX_OUTPUT_TOKENS = 50;
 
-// Cargar el dataset 
-const datasetUrl = './dataset_sql.json';
-let dataset;
-async function loadDataset() {
-    const response = await fetch(datasetUrl);
-    dataset = await response.json();
-}
+// ============================================
+// HISTORIAL DE CONVERSACIÓN (solo en memoria)
+// ============================================
+let historialConversacion = [];
 
-// Llamar a la funcion de carga del dataset al inicio
-loadDataset();
-
-//Funcion par llamar y obtener respuesta de la API
+// ============================================
+// FUNCIÓN PRINCIPAL
+// ============================================
 async function llamarAPI() {
-    //Obtenemos la setencia SQL que escribio el usuario 
-    const setenciaSQL = document.getElementById('areaSQL').value;
-
-    //Verificamos que que la setencia no este vacia
-    if (!setenciaSQL.trim()) {
-        alert('Por favor ingresa una pregunta');
+    const textarea = document.getElementById('areaSQL');
+    const preguntaUsuario = textarea.value.trim();
+    if (!preguntaUsuario) {
+        alert('Por favor escribe una pregunta');
         return;
     }
 
-    document.getElementById('idPUsuario').innerText = setenciaSQL;
-    document.getElementById('idPIA').innerText = "Aqui se mostrara la respuesta de la IA";
+    // 1) Mostrar y guardar el mensaje del usuario en el historial INMEDIATAMENTE
+    const idMensajeUsuario = mostrarMensaje(preguntaUsuario, 'usuario');
+    historialConversacion.push({ rol: 'usuario', texto: preguntaUsuario });
 
-    /* 
-    // Endpoint de la API de Cohere
-    const url = 'https://api.cohere.ai/v1/generate';
+    // limpiar textarea
+    textarea.value = '';
 
-    //Configuramos los headers
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
-    };
+    // 2) Crear mensaje de carga para la IA y guardar su id para actualizar luego
+    const idLoading = mostrarMensaje('Pensando...', 'ia');
 
     try {
-        // Esperar a que se cargue el dataset
-        if (!dataset) {
-            await loadDataset();
-        }
+        const respuesta = await consultarGemini(preguntaUsuario);
 
-        //Cuerpo para enviar a la API
-        const body = JSON.stringify({
-            // Modelo de cohere que se va a utilizar
-            model: 'command-r-plus-08-2024',
-            // Prompt que se envia a la IA, incluyendo el dataset
-            prompt: `Explica de manera corta (quiero que toda la explicacion la realizes en un maximo de 250 palabras) para que una persona que no tenga conocimientos de SQL pueda entender la siguiente consulta SQL: ${setenciaSQL}. En el contexto del dataset: ${JSON.stringify(dataset)}`,
-            // Tokens que va a regrear la IA
-            max_tokens: 250,
-        });
+        // 3) Actualizar el mensaje de "Pensando..." con la respuesta real
+        actualizarMensaje(idLoading, respuesta.texto);
 
-        //Obtenmos la respuesta de la API
-        const respuestaAPI = await fetch(url, {
-            method: 'POST',
-            headers: headers,
-            body: body,
-        });
+        // 4) Guardar la respuesta en el historial
+        historialConversacion.push({ rol: 'ia', texto: respuesta.texto });
 
-        //Obtemos el texto de la repsuesta
-        const respuestaTexto = await respuestaAPI.json();
+        // 5) Log de tokens (opcional)
+        console.log('════════════════════════════');
+        console.log('Tokens entrada:', respuesta.tokensEntrada);
+        console.log('Tokens salida:', respuesta.tokensSalida);
+        console.log('Tokens total:', respuesta.tokensTotal);
+        console.log('Límite configurado:', MAX_OUTPUT_TOKENS);
+        console.log('════════════════════════════');
 
-        // Si hubo una respuesta "ok" se imprime la respuesta de la IA
-        if (respuestaAPI.ok) {
-            document.getElementById('idPIA').innerText = respuestaTexto.generations[0].text;
-            document.getElementById('idPUsuario').innerText = setenciaSQL;
-            document.getElementById('areaSQL').value = "";
-        } else {
-            // En caso que sea otra respuesta imprimir el error
-            document.getElementById('idPIA').innerText = 'Hubo un error al obtener la explicación. Intenta nuevamente, error: ' + respuestaTexto;
-            console.error('Error en la solicitud:', respuestaTexto);
-            document.getElementById('idPUsuario').innerText = setenciaSQL;
-        }
     } catch (error) {
-        document.getElementById('idPIA').innerText = 'Hubo un error con la API. Por favor, intenta más tarde, error: ' + error;
-        console.error('Error con la API:', error);
-        document.getElementById('idPUsuario').innerText = setenciaSQL;
+        console.error('❌ Error al llamar a la API:', error);
+        actualizarMensaje(idLoading, 'Lo siento, hubo un error al procesar tu pregunta. Por favor intenta de nuevo.');
     }
-    */
 }
+
+// ============================================
+// FUNCIÓN PARA CONSULTAR GEMINI
+// ============================================
+async function consultarGemini(pregunta) {
+    // Construir historial en formato de texto (lo que se enviará como contexto)
+    const historialTexto = historialConversacion
+        .map(msg => `${msg.rol === 'usuario' ? 'Usuario' : 'Asistente'}: ${msg.texto}`)
+        .join('\n');
+
+    // Eres un asistente empático y experto en lactancia materna. Responde de manera clara, breve y basada en evidencia científica.
+    const promptConContexto = `
+        Responde con un maximo de 50 tokens.
+        Historial de conversación:
+        ${historialTexto}
+
+        Usuario: ${pregunta}
+        Asistente:
+    `;
+
+    const requestBody = {
+        contents: [{ parts: [{ text: promptConContexto }] }],
+        generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: MAX_OUTPUT_TOKENS,
+            topK: 40,
+            topP: 0.95
+        }
+    };
+
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+        let errText = '';
+        try {
+            const errJson = await response.json();
+            errText = JSON.stringify(errJson);
+        } catch (e) {
+            errText = await response.text();
+        }
+        console.error('❌ Error de la API:', errText);
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Asegurarse de que la estructura existe
+    const texto = (data?.candidates?.[0]?.content?.parts?.[0]?.text) || 'No se recibió respuesta de la IA.';
+    const usageMetadata = data.usageMetadata || {};
+
+    return {
+        texto,
+        tokensEntrada: usageMetadata.promptTokenCount || 0,
+        tokensSalida: usageMetadata.candidatesTokenCount || 0,
+        tokensTotal: usageMetadata.totalTokenCount || 0
+    };
+}
+
+// ============================================
+// FUNCIONES AUXILIARES PARA MOSTRAR MENSAJES
+// ============================================
+function mostrarMensaje(texto, tipo) {
+    const divCuerpo = document.getElementById('divCuerpo');
+    const contenedor = document.createElement('div');
+
+    // id único (Date.now + contador aleatorio pequeño para evitar colisiones)
+    const uniqueId = 'msg_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    contenedor.id = uniqueId;
+    contenedor.setAttribute('data-role', tipo);
+    contenedor.className = tipo === 'usuario' ? 'div-text-usuario' : 'div-text-IA';
+
+    // estructura interna consistente
+    const p = document.createElement('p');
+    p.textContent = texto;
+    contenedor.appendChild(p);
+
+    divCuerpo.appendChild(contenedor);
+
+    // scroll automático al final
+    divCuerpo.scrollTop = divCuerpo.scrollHeight;
+
+    return uniqueId;
+}
+
+function actualizarMensaje(id, nuevoTexto) {
+    const mensaje = document.getElementById(id);
+    if (!mensaje) {
+        console.warn('No se encontró el mensaje con id:', id);
+        return;
+    }
+    // Reemplazamos solo el contenido textual del primer <p>
+    const p = mensaje.querySelector('p');
+    if (p) p.textContent = nuevoTexto;
+    else mensaje.innerHTML = `<p>${nuevoTexto}</p>`;
+
+    // asegurar scroll al mensaje actualizado
+    const divCuerpo = document.getElementById('divCuerpo');
+    divCuerpo.scrollTop = divCuerpo.scrollHeight;
+}
+
+// ============================================
+// ENTER PARA ENVIAR
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const textarea = document.getElementById('areaSQL');
+    textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            llamarAPI();
+        }
+    });
+});
+
+window.llamarAPI = llamarAPI;
