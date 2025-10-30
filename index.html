@@ -5,9 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu asistente de lactancia materna</title>
     <link rel="stylesheet" href="./estilos.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #9A7578 !important;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="color: #fff; font-weight: bold;">LACTANCIA IA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" style="color: #fff;">Sobre nosotros</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav> 
+
+    <div class="div-inicio">
+        <div class="div-texto">
+            <h1>TU COMPÁÑERA INTELIGENTE EN EL VIAJE DE LA LACTANCIA</h1>
+            <p>Respuestas confiables y apoyo personalizado para cada mamá a cualquier hora</p>
+        </div>
+
+        <div class="div-dibujo">
+            <img src="./mama.png" alt="">
+        </div>
+
+        <div class="div-fondo">
+
+        </div>
+    </div>
+
     <div class="div-contenedor">
         <div class="div-cabeza">
             <p>Tu asistente de lactancia materna</p>
@@ -15,8 +53,19 @@
 
         <!-- Contenedor del cuerpo donde se muestra el historial -->
         <div class="div-cuerpo" id="divCuerpo">
+            <br>
+            <div class="div-text-IA">
+                <p>¡Hola! Soy Lactancia IA, tu apoyo virtual 24/7. 
+                    <br>
+                    Estoy aquí para resolver tus dudas sobre la lactancia materna.
+                    <br>
+                    ¿podrías decirme tu nombre?
+                </p>
+            </div>
+            <br>
         </div>
 
+        <br>
         <!-- Contenedor del área de texto -->
         <div class="div-mensaje">
             <div class="div-elementos">
@@ -26,8 +75,15 @@
                 </button>
             </div>
         </div>
+        <br>
+        <br>
+
+        <div class="div-fondo-chat">
+
+        </div>
     </div>
 
     <script src="./llamar-API.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

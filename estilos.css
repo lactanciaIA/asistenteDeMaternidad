@@ -7,6 +7,160 @@ body {
     box-sizing: border-box;
 }
 
+.div-inicio{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.div-inicio .div-texto{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.div-inicio .div-texto h1{
+    width: 90%;
+    font-family: "Bree Serif", serif;
+    font-weight: bold;
+    color: #6F3F42;
+    text-align: left;
+    font-size: 60px;
+}
+
+.div-inicio .div-texto p{
+    width: 90%;
+    font-family: "Bree Serif", serif;
+    color: #9A7578;
+    text-align: left;
+    font-size: 30px;
+}
+
+.div-inicio .div-dibujo{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.div-inicio .div-dibujo img{
+    width: 75%;
+}
+
+.div-inicio .div-fondo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    background: url("./fondo.png") no-repeat center center;
+    background-size: cover;
+}
+
+@media (max-width: 1000px) {
+    .div-inicio .div-texto{
+        width: 50%;
+    }
+    .div-inicio .div-texto h1{
+        width: 90%;
+        font-size: 45px;
+    }
+
+    .div-inicio .div-texto p{
+        width: 90%;
+        font-size: 25px;
+    }
+
+    .div-inicio .div-dibujo{
+        width: 50%;
+    }
+
+    .div-inicio .div-dibujo img{
+        width: 90%;
+    }
+}
+
+@media (max-width: 700px) {
+    .div-inicio{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .div-inicio .div-texto{
+        width: 100%;
+        height: 40%;
+        padding-top: 15%;
+    }
+    .div-inicio .div-texto h1{
+        text-align: center;
+    }
+
+    .div-inicio .div-texto p{
+        text-align: center;
+    }
+    .div-inicio .div-dibujo{
+        width: 100%;
+        height: 60%;
+    }
+    .div-inicio .div-dibujo img{
+        width: 60%;
+    }
+}
+
+@media (max-width: 600px) {
+    .div-inicio .div-texto{
+        padding-top: 15%;
+    }
+    .div-inicio .div-texto h1{
+        font-size: 40px;
+    }
+    .div-inicio .div-texto p{
+        font-size: 20px;
+    }
+    .div-inicio .div-dibujo img{
+        width: 60%;
+    }
+}
+
+@media (max-width: 500px) {
+    .div-inicio .div-texto{
+        padding-top: 15%;
+    }
+    .div-inicio .div-texto h1{
+        font-size: 30px;
+    }
+    .div-inicio .div-texto p{
+        font-size: 20px;
+    }
+    .div-inicio .div-dibujo img{
+        width: 80%;
+    }
+}
+
+@media (max-width: 375px) {
+    .div-inicio .div-texto{
+        height: 50%;
+        padding-top: 20%;
+    }
+    .div-inicio .div-texto h1{
+        font-size: 25px;
+    }
+    .div-inicio .div-texto p{
+        font-size: 18px;
+    }
+    .div-inicio .div-dibujo{
+        height: 50%;
+    }
+    .div-inicio .div-dibujo img{
+        width: 60%;
+    }
+}
 
 /* Estilos para el contenedor general */
 
@@ -17,7 +171,6 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    /* background-color: #111b21; */
 }
 
 
@@ -26,16 +179,18 @@ body {
 .div-contenedor .div-cabeza {
     height: 10%;
     width: 100%;
-    text-align: center;
-    /* background-color: #202c33; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #CCA2A6;
 }
 
 .div-contenedor .div-cabeza p {
-    color: #000;
-    font-size: 35px;
-    line-height: 0;
-    font-family: "Trebuchet MS", sans-serif;
+    color: #fff;
+    font-size: 30px;
+    font-family: "Bree Serif", serif;
     font-weight: bold;
+    text-align: center;
 }
 
 
@@ -59,15 +214,15 @@ body {
 
 .div-contenedor .div-cuerpo .div-text-usuario p {
     width: auto;
-    max-width: 80%;
+    max-width: 60%;
     font-size: 20px;
     font-family: "Trebuchet MS", sans-serif;
     text-align: right;
-    color: #d1d7db;
+    color: #6F3F42;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
-    background-color: #000;
-    /* background-color: #005c4b; */
+    background-color: #EDD2D6;
+    box-shadow: -10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -82,15 +237,15 @@ body {
 
 .div-contenedor .div-cuerpo .div-text-IA p {
     width: auto;
-    max-width: 80%;
+    max-width: 60%;
     font-size: 20px;
     font-family: "Trebuchet MS", sans-serif;
     text-align: left;
-    color: #d1d7db;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
-    background-color: #000;
-    /* background-color: #202c33; */
+    background-color: #F5E7E9;
+    color: #6F3F42;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -102,7 +257,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: #202c33;  */
 }
 
 .div-contenedor .div-mensaje .div-elementos {
@@ -113,7 +267,7 @@ body {
 }
 
 .div-contenedor .div-mensaje .div-elementos textarea {
-    width: 80%;
+    width: 300%;
     height: auto;
     padding-left: 20px;
     padding-top: 15px;
@@ -122,13 +276,17 @@ body {
     color: #000;
     font-family: "Trebuchet MS", sans-serif;
     font-size: 25px;
-   /*  background-color: #2a3942; */
-    border-radius: 15px;
+    background-color: #F5E1E2; 
+    border-radius: 25px;
+    border: solid 3px #441424;
+}
+
+.div-contenedor .div-mensaje .div-elementos button svg {
+    color: #441424;
 }
 
 .div-contenedor .div-mensaje .div-elementos textarea:focus {
     outline: none;
-    border: none;
 }
 
 .div-contenedor .div-mensaje .div-elementos button {
@@ -138,6 +296,18 @@ body {
     color: #7C8C95;
     text-align: right;
     cursor: pointer;
+}
+
+.div-contenedor .div-fondo-chat{
+    margin-top: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    background: url("./fondo-chat.png") no-repeat center center;
+    background-size: cover;
 }
 
 
@@ -150,6 +320,13 @@ body {
     .div-contenedor .div-mensaje .div-elementos {
         width: 90%;
     }
+    .div-contenedor .div-cuerpo .div-text-IA p {
+        max-width: 75%;
+    }
+    .div-contenedor .div-cuerpo .div-text-usuario p {
+        max-width: 75%;
+    }
+
 }
 
 @media (max-width: 650px) {

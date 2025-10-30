@@ -1,18 +1,12 @@
-// ============================================
 // CONFIGURACIÓN
-// ============================================
 const API_KEY = 'AIzaSyAr3mbb8Y4oCtXsZVW5a_GOJXVHO41aImI';
 const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent';
 const MAX_OUTPUT_TOKENS = 50;
 
-// ============================================
-// HISTORIAL DE CONVERSACIÓN (solo en memoria)
-// ============================================
+// HISTORIAL DE CONVERSACIÓN
 let historialConversacion = [];
 
-// ============================================
 // FUNCIÓN PRINCIPAL
-// ============================================
 async function llamarAPI() {
     const textarea = document.getElementById('areaSQL');
     const preguntaUsuario = textarea.value.trim();
@@ -49,14 +43,12 @@ async function llamarAPI() {
         console.log('════════════════════════════');
 
     } catch (error) {
-        console.error('❌ Error al llamar a la API:', error);
+        console.error('Error al llamar a la API:', error);
         actualizarMensaje(idLoading, 'Lo siento, hubo un error al procesar tu pregunta. Por favor intenta de nuevo.');
     }
 }
 
-// ============================================
 // FUNCIÓN PARA CONSULTAR GEMINI
-// ============================================
 async function consultarGemini(pregunta) {
     // Construir historial en formato de texto (lo que se enviará como contexto)
     const historialTexto = historialConversacion
@@ -97,7 +89,7 @@ async function consultarGemini(pregunta) {
         } catch (e) {
             errText = await response.text();
         }
-        console.error('❌ Error de la API:', errText);
+        console.error('Error de la API:', errText);
         throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
@@ -157,9 +149,7 @@ function actualizarMensaje(id, nuevoTexto) {
     divCuerpo.scrollTop = divCuerpo.scrollHeight;
 }
 
-// ============================================
 // ENTER PARA ENVIAR
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById('areaSQL');
     textarea.addEventListener('keydown', (e) => {
